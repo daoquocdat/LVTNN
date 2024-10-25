@@ -1,21 +1,24 @@
 var express = require("express");
+var app = express();
+const handlebars = require('express-handlebars'); // khai báo thư viện handlebars
 const db = require('./config/db');
 const usersModel = require('./app/models/users.model');
+const router = require('./routes/index');
+const path = require('path');
+const port = 3000; // khai báo port
 
-var app = express();
+db.connect(); // kết nối database
+app.listen(3000, () => console.log(`App listening at http://localhost:${port}`)) //lắng nghe port 3000
 
-db.connect();
+app.engine('hbs', handlebars.engine({
+    extname: '.hbs',
+    helpers: require('./app/helpers/handlebars.js'),
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    },
+}));
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'resources', 'views'));
 
-app.get('/',(req,res) =>{   
-    console.log('HHHHH');
-    return usersModel.find({})
-        .then((users) =>{
-            res.send(users);
-        })
-        .catch((error) =>{
-            console.log('Error',error);
-        });
-})
-
-app.listen(3000,  () => console.log('listen on port 3000'))
-
+router(app);
