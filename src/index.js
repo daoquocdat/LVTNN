@@ -10,6 +10,7 @@ const port = 3000; // khai báo port
 db.connect(); // kết nối database
 app.listen(3000, () => console.log(`App listening at http://localhost:${port}`)) //lắng nghe port 3000
 
+// cài đặt của thư viên handlebars
 app.engine('hbs', handlebars.engine({
     extname: '.hbs',
     helpers: require('./app/helpers/handlebars.js'),
@@ -21,4 +22,4 @@ app.engine('hbs', handlebars.engine({
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
 
-router(app);
+router(app); //route đường dẫn
