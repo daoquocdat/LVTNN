@@ -7,6 +7,7 @@ const router = require('./routes/index');
 const path = require('path');
 const port = 3000; // khai báo port
 
+app.use(express.json());
 db.connect(); // kết nối database
 app.listen(3000, () => console.log(`App listening at http://localhost:${port}`)) //lắng nghe port 3000
 
