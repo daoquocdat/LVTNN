@@ -1,5 +1,5 @@
 const adminModel = require('../../models/admin.model');
-
+const bcrypt = require('bcrypt');
 class AdminController{
     getAll(req, res) {
         adminModel.find({ isDeleted: false })
@@ -23,10 +23,12 @@ class AdminController{
         });
     }
 
-    create(req, res) {
+    async create(req, res) {
+        const salt = bcrypt.genSaltSync(10);
+        const passwordHash = await bcrypt.hash(req.body.password, salt);
         const admin = new adminModel({
             username: req.body.username,
-            password: req.body.password,
+            password: passwordHash,
             name: req.body.name,
             isDeleted: false 
         });
@@ -85,19 +87,31 @@ class AdminController{
         });
     }
 
-    login(req, res) {
+    async login(req, res) {
         const username = req.body.username;
         const password = req.body.password;
 
-        adminModel.findOne({ username, password })
-        .then(admin => {
-            const name = admin.name;
+        adminModel.findOne({ username })
+        .then(async admin => {
+            if(!admin){
+                return res.json("Tai khoan khong ton tai");
+            }
+            const passwordCompare = bcrypt.compare(password, admin.password);
+            if(!passwordCompare) {
+                return res.json("Sai mat khau");
+            }   
+            res.cookie('admin', admin, { maxAge: 900000, httpOnly: true });
 
-            res.json("Dang nhap thanh cong " + name);
+            res.json("Dang nhap thanh cong ");
         })
         .catch(error => {
             console.log(error);
         });
+    }
+
+    logout(req, res) {
+        res.clearCookie('admin');
+        res.json("Dang xuat thanh cong");
     }
 }
 
