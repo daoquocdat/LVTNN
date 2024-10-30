@@ -3,16 +3,10 @@ const bcrypt = require('bcrypt');
 const adminModel = require('../../models/admin.model');
 const { generateToken } = require('../../common/generateToken');
 class AdminController{
-    getAll(req, res) {
-        adminModel.find({ isDeleted: false })
-        .then(admins => {
-            res.json(admins);
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    // [GET] /admin
+    index(req, res) {
+        res.render('admin/admin', {layout: 'admain'});
     }
-
     getOne(req, res) {
         const id = req.params.id;
 
@@ -89,10 +83,14 @@ class AdminController{
         });
     }
 
+    // admin/login
+    loginform(req, res) {
+        res.render('admin/login', { layout: 'admain' });
+    }
+
     async login(req, res) {
         const username = req.body.username;
         const password = req.body.password;
-
         adminModel.findOne({ username })
         .then(async admin => {
             if(!admin){
@@ -110,8 +108,7 @@ class AdminController{
             );
 
             res.cookie('adminAccessToken', accessToken, { maxAge: 900000, httpOnly: true });
-
-            res.json("Dang nhap thanh cong ");
+            res.redirect('/admin');
         })
         .catch(error => {
             console.log(error);

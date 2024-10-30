@@ -6,5 +6,4 @@ const router = express.Router();
 router.use('/', adminRouter); // -> /admin
 router.use('/food', foodRouter); // -> /admin/food
 
-
 module.exports = router;

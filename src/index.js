@@ -7,7 +7,11 @@ const router = require('./routes/index');
 const path = require('path');
 const port = 3000; // khai báo port
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 require("dotenv").config();
 db.connect(); // kết nối database
 app.listen(3000, () => console.log(`App listening at http://localhost:${port}`)) //lắng nghe port 3000
@@ -23,5 +27,8 @@ app.engine('hbs', handlebars.engine({
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
+
+// cài đặt public folder là thư mục chữa file static
+app.use(express.static(path.join(__dirname, 'public')))
 
 router(app); //route đường dẫn
