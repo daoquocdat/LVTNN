@@ -6,8 +6,9 @@ const usersModel = require('./app/models/users.model');
 const router = require('./routes/index');
 const path = require('path');
 const port = 3000; // khai báo port
-
+const dotenv = require('dotenv');
 app.use(express.json());
+require("dotenv").config();
 db.connect(); // kết nối database
 app.listen(3000, () => console.log(`App listening at http://localhost:${port}`)) //lắng nghe port 3000
 

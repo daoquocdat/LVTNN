@@ -1,5 +1,7 @@
-const adminModel = require('../../models/admin.model');
 const bcrypt = require('bcrypt');
+
+const adminModel = require('../../models/admin.model');
+const { generateToken } = require('../../common/generateToken');
 class AdminController{
     getAll(req, res) {
         adminModel.find({ isDeleted: false })
@@ -100,7 +102,14 @@ class AdminController{
             if(!passwordCompare) {
                 return res.json("Sai mat khau");
             }   
-            res.cookie('admin', admin, { maxAge: 900000, httpOnly: true });
+            const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+            const accessToken = await generateToken(
+                { id: admin._id },
+                accessTokenSecret,
+            );
+
+            res.cookie('adminAccessToken', accessToken, { maxAge: 900000, httpOnly: true });
 
             res.json("Dang nhap thanh cong ");
         })
