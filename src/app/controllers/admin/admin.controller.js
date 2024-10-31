@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-
 const adminModel = require('../../models/admin.model');
 const { generateToken } = require('../../common/generateToken');
+
 class AdminController{
     // [GET] /admin
     index(req, res) {
@@ -85,7 +85,7 @@ class AdminController{
 
     // [GET] /admin/login
     loginform(req, res) {
-        res.render('admin/login', { layout: 'admain' });
+        res.render('admin/login', { layout: 'login' });
     }
 
     // [POST] /admin/login
@@ -119,7 +119,7 @@ class AdminController{
     // [GET] /admin/logout
     logout(req, res) {
         res.clearCookie('admin');
-        res.json("Dang xuat thanh cong");
+        res.redirect('/');
     }
 }
 

@@ -1,18 +1,20 @@
 var express = require("express");
 var app = express();
 const handlebars = require('express-handlebars'); // khai báo thư viện handlebars
-const db = require('./config/db');
-const usersModel = require('./app/models/users.model');
-const router = require('./routes/index');
-const path = require('path');
+const db = require('./config/db'); // khai báo database
+const router = require('./routes/index'); // khai báo route
+const path = require('path'); // khai báo path
 const port = 3000; // khai báo port
-const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
+const dotenv = require('dotenv'); // khai báo dotenv
+const bodyParser = require('body-parser'); // khai báo body-parser
 
+// cài đặt body-parser
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// cài đặt dotenv
 require("dotenv").config();
+
 db.connect(); // kết nối database
 app.listen(3000, () => console.log(`App listening at http://localhost:${port}`)) //lắng nghe port 3000
 
