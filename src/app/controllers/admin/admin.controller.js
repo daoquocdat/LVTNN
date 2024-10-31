@@ -83,11 +83,12 @@ class AdminController{
         });
     }
 
-    // admin/login
+    // [GET] /admin/login
     loginform(req, res) {
         res.render('admin/login', { layout: 'admain' });
     }
 
+    // [POST] /admin/login
     async login(req, res) {
         const username = req.body.username;
         const password = req.body.password;
@@ -96,7 +97,7 @@ class AdminController{
             if(!admin){
                 return res.json("Tai khoan khong ton tai");
             }
-            const passwordCompare = bcrypt.compare(password, admin.password);
+            const passwordCompare = await bcrypt.compare(password, admin.password);
             if(!passwordCompare) {
                 return res.json("Sai mat khau");
             }   
@@ -115,6 +116,7 @@ class AdminController{
         });
     }
 
+    // [GET] /admin/logout
     logout(req, res) {
         res.clearCookie('admin');
         res.json("Dang xuat thanh cong");

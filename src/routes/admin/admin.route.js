@@ -4,6 +4,7 @@ const adminController = require('../../app/controllers/admin/admin.controller');
 
 router.get('/', adminController.index);
 router.get('/login', adminController.loginform);
+router.get('/logout', adminController.logout);
 router.get('/:id', adminController.getOne);
 router.post('/', adminController.create);
 router.delete('/:id', adminController.delete);
