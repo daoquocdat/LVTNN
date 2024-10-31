@@ -99,7 +99,7 @@ a {
 }
 
 .bgcolor {
-  background: url(../img/bg/backgroud-header.jpg) top center repeat-x;
+  background-color: #5e2323fb;
   width: 100%;
   z-index: 1020;
 }
@@ -166,6 +166,11 @@ a {
 
 .logo a img {
   height: 150px;
+  padding-right: 200px;
+}
+
+.logo-mini a img {
+  height: 80px;
   padding-right: 200px;
 }
 
