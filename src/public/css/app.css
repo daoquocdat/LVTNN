@@ -99,7 +99,13 @@ a {
 }
 
 .bgcolor {
-  background-color: #5e2323fb;
+  background-color: #5e2341fb;
+  width: 100%;
+  z-index: 1020;
+}
+
+.bgcolor-staff {
+  background-color: #ad602cfb;
   width: 100%;
   z-index: 1020;
 }
