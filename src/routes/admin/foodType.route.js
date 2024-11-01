@@ -7,4 +7,9 @@ router.get('/index', foodTypeController.showFoodType);
 router.get('/create', foodTypeController.createForm);
 router.post('/store', foodTypeController.store);
 
+router.get('/:id/update', foodTypeController.updateForm);
+router.put('/:id', foodTypeController.update);
+
+router.delete('/:id', foodTypeController.delete);
+
 module.exports = router;

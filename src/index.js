@@ -7,6 +7,7 @@ const path = require('path'); // khai báo path
 const port = 3000; // khai báo port
 const dotenv = require('dotenv'); // khai báo dotenv
 const bodyParser = require('body-parser'); // khai báo body-parser
+const methodOverride = require('method-override'); // khai báo method-override
 
 // cài đặt body-parser
 app.use(express.json());
@@ -32,5 +33,8 @@ app.set('views', path.join(__dirname, 'resources', 'views'));
 
 // cài đặt public folder là thư mục chữa file static
 app.use(express.static(path.join(__dirname, 'public')))
+
+// cài đặt router override
+app.use(methodOverride('_method'));
 
 router(app); //route đường dẫn
