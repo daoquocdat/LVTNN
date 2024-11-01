@@ -11,5 +11,12 @@ class foodTypeController {
             })
             .catch();
     }
+
+    //[GET] admin/foodtype/create
+    create(req, res) {
+        res.render('foodtype/create', {
+            layout: 'admain'
+        })
+    }
 }
 module.exports = new foodTypeController()
