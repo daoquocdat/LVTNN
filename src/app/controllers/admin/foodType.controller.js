@@ -13,10 +13,22 @@ class foodTypeController {
     }
 
     //[GET] admin/foodtype/create
-    create(req, res) {
+    createForm(req, res) {
         res.render('foodtype/create', {
             layout: 'admain'
         })
+    }
+
+    //[POST] admin/foodtype/store
+    store(req, res) {
+        const foodtype = new foodTypeModel({
+            nameType: req.body.nameType
+        })
+        foodtype.save()
+            .then(() => res.redirect('/admin/foodType/index'))
+            .catch(error => {
+                console.log(error);
+            })
     }
 }
 module.exports = new foodTypeController()
