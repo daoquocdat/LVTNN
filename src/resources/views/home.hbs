@@ -1,21 +1,21 @@
 <div class="mt-4 container">
     <div class="row sticky-top">
-        thanh nav bar
+        {{!-- {{>nav-bar}} --}}
     </div>
     <!--Advertisement-->
     <div class="row">
-        quảng cáo
+        {{!-- {{>adv}} --}}
     </div>
     <!--Main-->
     <div class="row mt-3">
         <div class="col-left col-lg-9">
             <div class="row">
-               nội dung chính
+                {{>customer/main}}
             </div>
         </div>
         <div class="col-right col-lg-3">
             <div class="row">
-                danh sách món ăn
+                {{>customer/menufood}}
             </div>
         </div>
     </div>

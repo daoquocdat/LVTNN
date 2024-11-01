@@ -110,6 +110,12 @@ a {
   z-index: 1020;
 }
 
+.bgcolor-customer {
+  background-color: #fffffffb;
+  width: 100%;
+  z-index: 1020;
+}
+
 .bootstrap-select {
   width: 100% !important;
 }

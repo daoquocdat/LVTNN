@@ -2,7 +2,7 @@ var express = require("express");
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('./staff/staff', { layout: 'staff' });
+    res.render('./order/new', { layout: 'staff' });
 });
 
 

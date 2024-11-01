@@ -26,11 +26,16 @@
 
 <body>
     <div class="app">
-        header
+        <header>
+            {{>customer/header}}
+        </header>
+        <hr>
         <div>
             {{{body}}}
         </div>
-        <footer>footer</footer>
+        <footer>
+            {{>customer/footer}}
+        </footer>
         <a class="back_to_top back_to_top_fixed" id="myBtn" onclick="topFunction()"></a>
     </div>
     <script src="/js/app.js"></script>
