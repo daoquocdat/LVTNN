@@ -1,11 +1,17 @@
 const foodModel = require('../../models/food.model');
+const foodTypeModel = require('../../models/foodType.model');
+
+const { multipleMongooseToOject } = require('../../../util/mongoose');
 
 class FoodController {
     //[GET] /admin/food
     getAll(req, res) {
         const foodGetAll = foodModel.find({})
-            .then((foodGetAll) => {
-                res.json(foodGetAll);
+            .then((food) => {
+                res.render('food/index', {
+                    food,
+                    layout: 'admain'
+                })
             })
             .catch(error => {
                 console.log(error);
@@ -13,8 +19,15 @@ class FoodController {
     };
 
     //[GET] /admin/food/create
-    create(req, res) {
-        res.send('tạo món ăn');
+    create(req, res, next) {
+        foodTypeModel.find({})
+            .then((foodType) =>
+                res.render('food/create', {
+                    foodtype: multipleMongooseToOject(foodType),
+                    layout: 'admain'
+                })
+            )
+            .catch(next);
     }
 
     //[GET] /admin/food/delete
