@@ -5,6 +5,11 @@ body {
   background: url(https://kfcvietnam.com.vn/templates/images/bg.jpg) repeat top center fixed;
 }
 
+table tbody tr th,
+table tbody tr td {
+    vertical-align: middle !important;
+}
+
 img {
   max-width: 100%;
 }
@@ -237,6 +242,11 @@ a {
 
 ul {
   list-style: none;
+}
+
+.img-food-admin {
+  height: 100px;
+  border-radius: 20px !important;
 }
 
 .menu-function-admin {

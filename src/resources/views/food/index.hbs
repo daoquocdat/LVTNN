@@ -5,7 +5,8 @@
         </center>
         <div class="breadcrumb">
             <a class="btn btn-primary btn-sm" href="/admin/food/create" role="button">
-                <span class="fas fa-plus-circle"></span> Thêm mới
+                Thêm
+                <span class="fas fa-plus-circle"></span>
             </a>
         </div>
     </div>
@@ -19,27 +20,55 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Stt</th>
-                                            <th scope="col">Hình ảnh</th>
-                                            <th scope="col">Tên sản phẩm</th>
-                                            <th scope="col">Loại sản phẩm</th>
-                                            <th scope="col">Giá</th>
-                                            <th scope="col">Chức năng</th>
+                                            <th scope="col">
+                                                <center>Stt</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Hình ảnh</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Tên sản phẩm</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Mô tả</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Loại sản phẩm</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Giá</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Chức năng</center>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#food}}
                                         <tr>
-                                            <th scope="row">{{sum @index 1}}</th>
-                                            <td><img src="/upload/{{image}}" alt="{{name}}" style="width: 100px"></td>
-                                            <td>{{name}}</td>
-                                            <td>{{foodtypeid.nameType}}</td>
-                                            <td><span class="float-right">{{price}}<small>.000đ</small></span></td>
+                                            <th scope="row">
+                                                <center>{{sum @index 1}}</center>
+                                            </th>
                                             <td>
-                                                <a href="/admin/food/{{this._id}}/update"
-                                                    class="btn btn-warning">Sửa</a>
-                                                <a href="" class="btn btn-danger" data-id="{{this._id}}"
-                                                    data-bs-toggle="modal" data-bs-target="#delete-food-modal">Xóa</a>
+                                                <center><img src="/upload/{{image}}" alt="{{name}}"
+                                                        class="img-food-admin"></center>
+                                            </td>
+                                            <td>{{name}}</td>
+                                            <td>{{description}}</td>
+                                            <td>
+                                                <center>{{foodtypeid.nameType}}</center>
+                                            </td>
+                                            <td>
+                                                <center><span>{{price}}.000đ</span></center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <a href="/admin/food/{{this._id}}/update"
+                                                        class="btn btn-warning">Sửa</a>
+                                                    <a href="" class="btn btn-danger" data-id="{{this._id}}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#delete-food-modal">Xóa</a>
+                                                </center>
                                             </td>
                                         </tr>
                                         {{/food}}

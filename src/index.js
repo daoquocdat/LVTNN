@@ -8,6 +8,7 @@ const port = 3000; // khai báo port
 const dotenv = require('dotenv'); // khai báo dotenv
 const bodyParser = require('body-parser'); // khai báo body-parser
 const methodOverride = require('method-override'); // khai báo method-override
+const upload = require('./app/middlewares/multer'); // khai báo multer
 
 // cài đặt body-parser
 app.use(express.json());
