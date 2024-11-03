@@ -9,7 +9,8 @@ router.get('/index', foodController.getAll);
 router.get('/create', foodController.create);
 router.post('/store', upload.single('image'), foodController.store);
 
-router.get('/delete', foodController.delete);
+// admin/food/delete
+router.delete('/:id', foodController.delete);
 
 // admin/food/update
 router.get('/:id/edit', foodController.edit);

@@ -61,7 +61,12 @@ class FoodController {
 
     //[GET] /admin/food/delete
     delete(req, res) {
-        res.send('xóa môn ăn');
+        const id = req.params.id;
+        foodModel.findByIdAndDelete(id)
+            .then(() => res.redirect('/admin/food/index'))
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     //[GET] /admin/food/update
