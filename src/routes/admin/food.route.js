@@ -11,6 +11,8 @@ router.post('/store', upload.single('image'), foodController.store);
 
 router.get('/delete', foodController.delete);
 
-router.get('/update', foodController.update);
+// admin/food/update
+router.get('/:id/edit', foodController.edit);
+router.put('/:id/update', upload.single('image'), foodController.update);
 
 module.exports = router;

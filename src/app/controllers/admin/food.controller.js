@@ -57,7 +57,7 @@ class FoodController {
             res.status(500).send('Error saving food item');
         }
     }
-    
+
 
     //[GET] /admin/food/delete
     delete(req, res) {
@@ -65,8 +65,35 @@ class FoodController {
     }
 
     //[GET] /admin/food/update
-    update(req, res) {
-        res.send('cap nhật môn ăn');
+    edit(req, res) {
+        const id = req.params.id;
+        foodModel.findById(id)
+            .then((food) => {
+                res.render('food/edit', {
+                    food,
+                    layout: 'admain'
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    //[PUT] /admin/food/:id
+    async update(req, res) {
+        const slug = `${slugify(req.body.name)}-${Date.now()}`;
+        let body = {
+            ...req.body,
+            slug
+        };
+        if (req?.file?.filename) {
+            body.image = req.file.filename;
+        }
+        const food = await foodModel.updateOne({ _id: req.params.id }, body)
+            .then(() => res.redirect('/admin/food/index'))
+            .catch(error => {
+                console.log(error);
+            })
     }
 }
 
