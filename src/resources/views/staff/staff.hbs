@@ -1,0 +1,138 @@
+<div class="content">
+    <div id="new-orders" class="slide active">
+        <h1>Đơn hàng mới</h1>
+        <div class="order-section">
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
+                    <p><strong>Số điện thoại:</strong> 0123456789</p>
+                </div>
+                <ul class="order-items">
+                    <li>1x Burger</li>
+                    <li>2x Pepsi</li>
+                    <li>3x Khoai tây chiên</li>
+                    <li>3x Khoai tây chiên</li>
+                    <li>3x Khoai tây chiên</li>
+                    <li>3x Khoai tây chiên</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="confirmOrder()">Xác nhận</button>
+                    <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+                </div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var orderItems = document.querySelector('.order-items');
+                    var items = orderItems.querySelectorAll('li');
+
+                    if (items.length > 4) {
+                        for (var i = 4; i < items.length; i++) {
+                            items[i].style.display = 'none';
+                        }
+                        var moreItem = document.createElement('li');
+                        moreItem.textContent = '...';
+                        orderItems.appendChild(moreItem);
+                    }
+                });
+            </script>
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
+                    <p><strong>Số điện thoại:</strong> 0123456789</p>
+                </div>
+                <ul class="order-items">
+                    <li>1x Burger</li>
+                    <li>2x Pepsi</li>
+                    <li>3x Khoai tây chiên</li>
+                    <li>4x Pizza</li>
+                    <li>5x Sandwich</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="confirmOrder()">Xác nhận</button>
+                    <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+                </div>
+            </div>
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
+                    <p><strong>Số điện thoại:</strong> 0123456789</p>
+                </div>
+                <ul class="order-items">
+                    <li>1x Burger</li>
+                    <li>2x Pepsi</li>
+                    <li>3x Khoai tây chiên</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="confirmOrder()">Xác nhận</button>
+                    <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+                </div>
+            </div>
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
+                    <p><strong>Số điện thoại:</strong> 0123456789</p>
+                </div>
+                <ul class="order-items">
+                    <li>1x Burger</li>
+                    <li>2x Pepsi</li>
+                    <li>3x Khoai tây chiên</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="confirmOrder()">Xác nhận</button>
+                    <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+                </div>
+            </div>
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Trần Thị B</p>
+                    <p><strong>Số điện thoại:</strong> 0987654321</p>
+                </div>
+                <ul class="order-items">
+                    <li>2x Gà rán</li>
+                    <li>1x Cola</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="confirmOrder()">Xác nhận</button>
+                    <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="in-progress-orders" class="slide">
+        <h1>Đang thực hiện</h1>
+        <div class="order-section">
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Lê Minh C</p>
+                    <p><strong>Số điện thoại:</strong> 0912345678</p>
+                </div>
+                <ul class="order-items">
+                    <li>1x Pizza</li>
+                    <li>2x Soda</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-complete" onclick="completeOrder()">Hoàn thành</button>
+                    <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="completed-orders" class="slide">
+        <h1>Đã hoàn thành</h1>
+        <div class="order-section">
+            <div class="order-card">
+                <div class="order-details">
+                    <p><strong>Khách hàng:</strong> Phạm Thị D</p>
+                    <p><strong>Số điện thoại:</strong> 0934567890</p>
+                </div>
+                <ul class="order-items">
+                    <li>3x Bánh mì</li>
+                    <li>1x Nước cam</li>
+                </ul>
+                <div class="order-actions">
+                    <button class="btn-complete" onclick="showDetails()">Xem chi tiết</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
