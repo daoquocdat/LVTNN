@@ -4,17 +4,28 @@ const foodTypeModel = require('../../models/foodType.model');
 class FoodController {
     //[GET] /
     home(req, res) {
-        foodTypeModel.find({})
-            .then((foodtype) => {
-                foodtype = foodtype.map(foodtype => foodtype.toObject());
-                res.render('home', {
-                    foodtype,
-                });
-            })
-            .catch(error => {
-                console.log(error);
+        Promise.all([
+            foodTypeModel.find({}).lean(), // Sử dụng lean() để chuyển đổi trực tiếp sang Object
+            foodModel.find({}).lean()
+        ])
+        .then(([foodtypes, foods]) => {
+            // Thay thế ký tự xuống dòng trong mô tả thực phẩm
+            foods = foods.map(food => {
+                return {
+                    ...food,
+                    description: food.description.replace(/\r\n/g, '<br/>'),
+                };
             });
-    }
+    
+            res.render('home', {
+                foodtypes, // Đổ dữ liệu foodtypes vào view
+                foods // Đổ dữ liệu foods vào view
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }     
 }
 
 module.exports = new FoodController();

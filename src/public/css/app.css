@@ -1,13 +1,11 @@
-html,
 body {
   font-weight: 400;
   color: #707070;
-  background: url(https://kfcvietnam.com.vn/templates/images/bg.jpg) repeat top center fixed;
 }
 
 table tbody tr th,
 table tbody tr td {
-    vertical-align: middle !important;
+  vertical-align: middle !important;
 }
 
 img {
@@ -285,6 +283,30 @@ a.menu-function-admin {
   height: 800px;
   background-color: #ecf0f5;
   z-index: 820;
+}
+
+.footer {
+  background-color: #343a40;
+  color: white;
+  padding: 40px 0;
+}
+
+.footer a {
+  color: #d4d4d4;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: white;
+}
+
+.footer .hot-line {
+  color: #ff4757;
+  font-weight: bold;
+}
+
+.footer hr {
+  background-color: #495057;
 }
 
 .content {
@@ -730,7 +752,7 @@ footer {
   text-transform: uppercase;
 }
 
-.back_to_top {
+/* .back_to_top {
   width: 1.888888888888889em;
   height: 1.888888888888889em;
   background-image: url(../img/icon/back_to_top.png);
@@ -742,7 +764,7 @@ footer {
   font-size: 18px;
   background-color: #fff;
   border-radius: 50rem;
-}
+} */
 
 .page-h {
   height: 666px;
