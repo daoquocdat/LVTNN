@@ -31,8 +31,10 @@ class FoodController {
         const slug = req.params.slug;
         foodModel.findOne({ slug })
             .then(food => {
-                const description = food.description.replaceAll('-', '');
-                const list = description.split('\r\n');
+                // Thay thế tất cả các ký tự \r\n trong description bằng thẻ <br/>
+                food.description = food.description.replace(/\r\n/g, '<br/>').replaceAll('-', '');
+                const list = food.description.split('<br/>'); // Chia chuỗi thành từng dòng bằng thẻ <br/>
+
                 res.render('food/detail', {
                     food,
                     list
@@ -42,6 +44,7 @@ class FoodController {
                 console.log(error);
             });
     }
+    
 
 }
 
