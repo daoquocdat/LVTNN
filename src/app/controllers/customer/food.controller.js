@@ -32,20 +32,17 @@ class FoodController {
         foodModel.findOne({ slug })
             .then(food => {
                 // Thay thế tất cả các ký tự \r\n trong description bằng thẻ <br/>
-                // // food.description = food.description.replace(/\r\n/g, '<br/>').replaceAll('-', '');
-                // const list = food.description.split('<br/>'); // Chia chuỗi thành từng dòng bằng thẻ <br/>
-
+                food.description = food.description.replace(/\r\n/g, '<br/>').replaceAll('-', '');
+                const list = food.description.split('<br/>'); // Chia chuỗi thành từng dòng bằng thẻ <br/>
                 res.render('food/detail', {
                     food,
-                    // list
+                    list
                 });
             })
             .catch(error => {
                 console.log(error);
             });
     }
-    
-
 }
 
 module.exports = new FoodController();

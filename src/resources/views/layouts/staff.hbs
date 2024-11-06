@@ -14,6 +14,7 @@
 <body>
     {{>staff/menufunction}}
     {{{body}}}
+    
     <!-- Modal -->
     <div id="cancelModal" class="modal">
         <div class="modal-content">
@@ -32,25 +33,29 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy slideId từ localStorage nếu có
+            const savedSlideId = localStorage.getItem('slideId');
+
+            // Nếu có slideId được lưu, hiển thị đúng slide
+            if (savedSlideId) {
+                showSlide(savedSlideId);
+            } else {
+                // Nếu không có, hiển thị slide mặc định (slide đầu tiên)
+                showSlide('new-orders');
+            }
+        });
         function showSlide(slideId) {
             const slides = document.querySelectorAll('.slide');
             slides.forEach(slide => slide.classList.remove('active'));
             document.getElementById(slideId).classList.add('active');
-        }
 
-        function confirmOrder() {
-            // Gửi yêu cầu xác nhận đơn hàng đến server
-            alert('Đơn hàng đã được xác nhận!');
+            // Lưu slideId vào localStorage
+            localStorage.setItem('slideId', slideId);
         }
-
         function cancelOrder() {
             // Gửi yêu cầu huỷ đơn hàng đến server
             alert('Đơn hàng đã được huỷ!');
-        }
-
-        function completeOrder() {
-            // Gửi yêu cầu hoàn thành đơn hàng đến server
-            alert('Đơn hàng đã được hoàn thành!');
         }
 
         function showDetails() {
