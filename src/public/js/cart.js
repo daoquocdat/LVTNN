@@ -1,4 +1,3 @@
-
 var keyLocalStorageItemCart = 'ListItemCart';
 
 function createItemCart(id, name, description, image, price, amount) {
@@ -12,6 +11,7 @@ function createItemCart(id, name, description, image, price, amount) {
     return itemCart;
 }
 
+// lấy danh sách sản phẩm trong giỏ hàng
 function getListItemCart() {
     var listItemCart = new Array();
     var jsonListItemCart = localStorage.getItem(keyLocalStorageItemCart);
@@ -55,21 +55,18 @@ function addAmountInnerID(idHTML) {
     }
 }
 
+// lưu tổng tiền hàng xuống trong localStorage
 function saveTotalOrderMoneyInLocal(totalMoney) {
-    var keyLocalStorageItemCart = 'TotalOrderMoney';
-    var totalOrderMoney = new Object()
-    totalOrderMoney.totalOrderMoney = totalMoney;
-    console.log(totalOrderMoney);
-    var jsonTotalOrderMoney = JSON.stringify(totalOrderMoney);
-    localStorage.setItem(keyLocalStorageItemCart, jsonTotalOrderMoney);
+    const totalOrderMoney = { totalOrderMoney: totalMoney };
+    localStorage.setItem('TotalOrderMoney', JSON.stringify(totalOrderMoney));
 }
 
 // hiển thị danh sách sản phẩm lên giỏ hàng
 function showListItemCartInnerID(idHTML) {
     var listItemCart = getListItemCart();
-    var HTML = listItemCartToHTML(listItemCart);
-    var nodeCart = document.getElementById(idHTML);
-    nodeCart.innerHTML = HTML;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById(idHTML).innerHTML = listItemCartToHTML(listItemCart);
+    });
 }
 
 // chuyển một danh sách thành html
@@ -79,11 +76,6 @@ function listItemCartToHTML(listItemCart) {
         allHTML = allHTML + itemCartToHTML(listItemCart[i]);
     }
     return allHTML;
-}
-// hiển thị giỏ hàng trống
-function emptyCartHTML() {
-    var HTML = '<div class="cart-item"> giỏ hàng của bạn trống </div>\n';
-    return HTML;
 }
 // chuyển một đối tượng thành html
 function itemCartToHTML(itemCart) {
@@ -109,15 +101,35 @@ function itemCartToHTML(itemCart) {
         '    <div class="row form-group">\n' +
         '        <div class="col-6 top">\n' +
         '           <a class="giam btn-giam" onclick="giam(' + id + ')">\n' +
-        '               <img class="giam" src="../img/icon/giam.png" alt="giam">\n' +
+        '               <i class="fas fa-minus-circle"></i>\n' +
         '           </a>\n' +
         '           <span class="sl" id="' + itemCart.id + '">' + itemCart.amount + '</span>\n' +
         '           <a class="tang btn-tang" onclick="tang(' + id + ')">\n' +
-        '               <img class="tang" src="../img/icon/tang.png" alt="tang">\n' +
+        '               <i class="fas fa-plus-circle"></i>\n' +
         '           </a>\n' +
         '        </div>\n' +
         '        <div class="col-6 down"><div class="float-right" id="' + idprice + '"><span>' + price + '<small>.000đ</small></span></div></div>\n' +
         '    </div>\n' +
         '</div>';
     return html;
+}
+
+// hàm hiển thị giỏ hàng trống
+function showEmptyCart() {
+    var gioHang = document.getElementsByClassName('cart-content')[0];
+    gioHang.innerHTML =
+        '<div class="empty-cart-container">\n' +
+        '  <div class="empty-cart">\n' +
+        '    <h1>Giỏ hàng của bạn đang trống.</h1>\n' +
+        '    <h1>Hãy đặt món ngay!</h1>\n' +
+        '    <div class="row">\n' +
+        '      <div class="form-group">\n' +
+        '        <a href="/">\n' +
+        '          <button style="width: 40%" class="btn btn-outline-dark btn-lg border-radius-20" type="button">\n' +
+        '            Bắt đầu đặt hàng</button>\n' +
+        '        </a>\n' +
+        '      </div>\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '</div>';
 }

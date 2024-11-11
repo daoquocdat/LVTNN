@@ -2,7 +2,15 @@
     <!--TAG TRÊN-->
     <div class="pl-3 pr-2 py-1">
         <div class="">
-            <button type="button" class="btn btn-warning btn-sm border-radius" disabled>Sản phẩm mới</button>
+            {{#ifEquals tag 'new'}}
+            <span class="badge badge-warning border-radius">Sản phẩm mới</span>
+            {{/ifEquals}}
+            {{#ifEquals tag '-20%'}}
+            <span class="badge badge-danger border-radius">-20%</span>
+            {{/ifEquals}}
+            {{#ifEquals tag 'best-seller'}}
+            <span class="badge badge-warning border-radius">Bán chạy nhất</span>
+            {{/ifEquals}}
         </div>
     </div>
     <!--HÌNH ẢNH-->
