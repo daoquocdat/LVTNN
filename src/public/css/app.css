@@ -249,7 +249,7 @@ ul {
 
 .menu-function-admin {
   font-size: 20px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .menu-function-admin .row:hover {
@@ -324,7 +324,7 @@ a.menu-function-admin {
   padding: 15px 15px 0 15px;
 }
 
-.content-header>.breadcrumb {
+.content-header > .breadcrumb {
   float: right;
   background: transparent;
   margin-top: 0;
@@ -502,7 +502,7 @@ a.menu-function-admin {
   font-size: 2em;
   font-weight: bold;
   line-height: 1.2;
-  padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
 }
 
 .checkout_new_box {
@@ -725,7 +725,7 @@ strong {
   margin-right: -5px;
 }
 
-.menu_show_user .row [class*=col-] {
+.menu_show_user .row [class*="col-"] {
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -800,4 +800,90 @@ footer {
 .icon-menufunction,
 .list-menufunction {
   padding: 10px 0px 10px 0px;
+}
+
+.search-box {
+  position: relative;
+  width: 200px; /* độ rộng tùy chỉnh */
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* khoảng cách để icon không chèn vào text */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-box i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none; /* không cho phép click vào icon */
+}
+/* Container for text and toggle switch */
+.status-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Đẩy toggle sang bên phải */
+  width: 100%; /* Đảm bảo phần tử chiếm toàn bộ chiều ngang */
+}
+.toggle-container {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+}
+
+/* Status text */
+#status-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Container for the toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  margin-left: 12px; /* Đẩy toggle switch sang phải */
+}
+
+/* Hidden checkbox input */
+.toggle-checkbox {
+  display: none;
+}
+
+/* Toggle switch background */
+.toggle-label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Active state for the toggle switch */
+.toggle-checkbox:checked + .toggle-label {
+  background-color: green;
+}
+
+/* The circle inside the toggle switch */
+.toggle-switch-circle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  border-radius: 50%;
+  transition: left 0.3s;
+}
+
+/* Move the circle to the right when checked */
+.toggle-checkbox:checked + .toggle-label .toggle-switch-circle {
+  left: 33px;
 }

@@ -100,6 +100,19 @@ class FoodController {
                 console.log(error);
             })
     }
+
+    search(req, res) {
+        const search = req.query.keyword;
+        console.log(search, "search")
+        foodModel.find({ name: { $regex: search, $options: 'i' } })
+            .then((food) => {
+                console.log(food, "food")
+                res.json({ data: food, domain: process.env.DOMAIN });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 }
 
 module.exports = new FoodController();

@@ -7,6 +7,8 @@ async function connect() {
 
             
         });
+        // mongoose.connect('mongodb://localhost:27017/lvtu', {
+        //   });
         console.log('Connect successfully!!!');
     } catch (error) {
         console.log('Connect failure!!!');

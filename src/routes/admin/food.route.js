@@ -5,6 +5,7 @@ const upload = require('../../app/middlewares/multer');
 
 // admin/food
 router.get('/index', foodController.getAll);
+router.get("/search", foodController.search);
 // admin/food/create
 router.get('/create', foodController.create);
 router.post('/store', upload.single('image'), foodController.store);
