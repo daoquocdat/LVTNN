@@ -14,7 +14,12 @@ const staffSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, "Mật khẩu là bắt buộc"],
+    required: [
+      function () {
+        return this.isNew;
+      },
+      "Mật khẩu là bắt buộc",
+    ],
   },
   avatar: { type: String, maxLength: 255 },
   phone: {

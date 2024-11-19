@@ -887,3 +887,13 @@ footer {
 .toggle-checkbox:checked + .toggle-label .toggle-switch-circle {
   left: 33px;
 }
+
+.image-avatar{
+  width: 100%;
+  height: 100%;
+  max-width: 100px;
+}
+
+.search-box{
+  margin-right: 6px;
+}

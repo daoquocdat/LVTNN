@@ -33,10 +33,6 @@ class staffController {
     console.log(req?.file?.avatar, "req?.file?.avatar");
     const avatar = req?.file ? req.file.filename : "avatar-staff-default.jpg";
 
-    // Kiểm tra các đầu vào để debug nếu cần
-    console.log("Received data:", req.body);
-    console.log("Received avatar:", avatar);
-
     // Tạo hash cho password
     const salt = bcrypt.genSaltSync(10);
     // Tạo instance mới của staffModel
@@ -58,34 +54,43 @@ class staffController {
       })
       .catch((error) => {
         console.log(error, "Error creating staff");
-        validateErrorHandler("staff/create.hbs", error, req, res, next);
+        validateErrorHandler("staff/create.hbs", error, req, res);
       });
   }
 
   async update(req, res) {
     const { name, phone, sex, identity } = req.body;
     const { password } = req.body ? req.body : null;
-    console.log(password, "password");
     const avatar = req?.file ? req.file.filename : null;
+
+    const status = req.body?.status ? "active" : "inactive";
     const params = {
       name,
       phone,
       sex,
       identity,
-      avatar,
+      status,
     };
+    if (avatar) {
+      params.avatar = avatar;
+    }
     if (password) {
       const salt = bcrypt.genSaltSync(10);
       params.password = await bcrypt.hash(password, salt);
     }
-    staffModel.findById((result) => {});
+
     staffModel
-      .findByIdAndUpdate(req.params.id, params)
-      .then((result) => {
-        console.log(result);
-        res.json({ message: "Cập nhật thông tin nhân viên thành công!" });
+      .findByIdAndUpdate(req.params.id, params, {
+        new: true,
+        runValidators: true, // Đảm bảo kiểm tra lại các điều kiện khác
+      })
+      .then(() => {
+        res.redirect(
+          "/admin/staff/index?message=Cập nhật thông tin nhân viên thành công!"
+        );
       })
       .catch((error) => {
+        validateErrorHandler("staff/update.hbs", error, req, res);
         console.log(error);
       });
   }

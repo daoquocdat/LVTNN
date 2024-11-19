@@ -5,7 +5,6 @@ exports.validateErrorHandler = (
   error,
   req,
   res,
-  next,
   layout = null
 ) => {
   if (error instanceof mongoose.Error.ValidationError) {
@@ -45,7 +44,7 @@ exports.validateErrorHandler = (
     });
   }
 
-  res.render(template, {
+  return res.render(template, {
     errors: {
       message: "Đã xảy ra lỗi hệ thống",
     },
