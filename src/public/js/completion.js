@@ -24,8 +24,8 @@ function listItemCartToHTML(listItemCart) {
     var allHTML = '';
     for (var i = 0; i < listItemCart.length; i++) {
         allHTML = allHTML + itemCartToHTML(listItemCart[i]);
-        if ((i+1) != listItemCart.length){
-            allHTML = allHTML + '<hr>';
+        if ((i + 1) != listItemCart.length) {
+            allHTML = allHTML;
         }
     }
     return allHTML;
@@ -38,19 +38,21 @@ function itemCartToHTML(itemCart) {
     var id = truoc + itemCart.id + truoc;
     var idmain = itemCart.id + 'main';
     var idprice = itemCart.id + 'price';
-    var html = '    <div class="row form-group">\n' +
-        '        <div class="col-8"><h3 class="head_3">' + itemCart.name + '</h3></div>\n' +
-        '    </div>\n' +
-        '    <div class="row form-group">\n' +
-        '        <div class="col-3"><img class="cart-item-img" src="/upload/' + itemCart.image + '" alt=""></div>\n' +
-        '        <div class="col-9">' + itemCart.description + '</div>\n' +
-        '    </div>\n' +
-        '    <div class="row form-group">\n' +
-        '        <div class="col-9 down offset-3">\n' +
-        '           <div class="float-left"><span class="price-bold">' + itemCart.amount + ' x '+ itemCart.price +'<small>.000đ</small></span></div>\n' +
-        '           <div class="float-right"><span class="price-bold">' + price + '<small>.000đ</small></span></div>\n' +
+    var html = '    <div class="row pt-1">\n' +
+        '        <div class="col-2">\n' +
+        '            <img class="cart-item-img" src="/upload/' + itemCart.image + '" alt="">\n' +
+        '        </div>\n' +
+        '        <div class="col-1">\n' +
+        '            <span class="price-bold">' + itemCart.amount + '</span>\n' +
+        '        </div>\n' +
+        '        <div class="col-7">\n' +
+        '            <span class="price-bold">' + itemCart.name + '</span>\n' +
+        '        </div>\n' +
+        '        <div class="col-2">\n' +
+        '            <span class="price-bold float-right">' + price + '<small>.000đ</small></span>\n' +
         '        </div>\n' +
         '    </div>\n'
+
     return html;
 }
 
@@ -74,25 +76,25 @@ function getTotalOrderMoney() {
 function showAddressInnerID(idHTML) {
     var address = getAddress();
     var payment = getPayment();
-    var HTML = '<div class="delivery_des delivery_des_new">\n'+
-    '    <div class="items">\n'+
-    '        <h3 class="delivery_title mt-2 mb-2 new_deli_title">'+ address.fullName +'</h3>\n'+
-    '        <p><span>Điện thoại: </span> '+ address.phone +'</p>\n'+
-    '        <p><span>Email: </span>'+ address.email +'</p>\n'+
-    '        <p><span>Địa chỉ: </span>'+ address.address +'</p>\n'+
-    '        <p><span>Phường/Xã: </span>'+ address.wards +'</p>\n'+
-    '        <p><span>Quận/Huyện: </span>'+ address.district +'</p>\n'+
-    '        <p><span>Tỉnh/Thành phố: </span>'+ address.city +'</p>\n'+
-    '    </div>\n'+
-    '    <div class="item mt-4">\n'+
-    '        <p><span>Phương thức thanh toán:</span></p>\n'+
-    '        <div class="payment_item mt-2">\n'+
-    '            <div class="d-flex align-items-center bd-highlight mt-1 mb-1">\n'+
-    '                <span class="ml-2 bd-highlight">'+ payment.write +'</span>\n'+
-    '            </div>\n'+
-    '        </div>\n'+
-    '    </div>\n'+
-    '</div>';
+    var HTML = '<div class="delivery_des delivery_des_new">\n' +
+        '    <div class="items">\n' +
+        '        <h3 class="delivery_title mt-2 mb-2 new_deli_title">' + address.fullName + '</h3>\n' +
+        '        <p><span>Điện thoại: </span> ' + address.phone + '</p>\n' +
+        '        <p><span>Email: </span>' + address.email + '</p>\n' +
+        '        <p><span>Địa chỉ: </span>' + address.address + '</p>\n' +
+        '        <p><span>Phường/Xã: </span>' + address.wards + '</p>\n' +
+        '        <p><span>Quận/Huyện: </span>' + address.district + '</p>\n' +
+        '        <p><span>Tỉnh/Thành phố: </span>' + address.city + '</p>\n' +
+        '    </div>\n' +
+        '    <div class="item mt-4">\n' +
+        '        <p><span>Phương thức thanh toán:</span></p>\n' +
+        '        <div class="payment_item mt-2">\n' +
+        '            <div class="d-flex align-items-center bd-highlight mt-1 mb-1">\n' +
+        '                <span class="ml-2 bd-highlight">' + payment.write + '</span>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '</div>';
     var nodeCart = document.getElementById(idHTML);
     nodeCart.innerHTML = HTML;
     return true;
@@ -100,16 +102,16 @@ function showAddressInnerID(idHTML) {
 
 function showPaymentInnerID(idHTML) {
     var payment = getPayment();
-    var HTML = '<div class="delivery_des delivery_des_new">\n'+
-    '    <div class="item mt-4">\n'+
-    '        <p><span>Phương thức thanh toán:</span></p>\n'+
-    '        <div class="payment_item mt-2">\n'+
-    '            <div class="d-flex align-items-center bd-highlight mt-1 mb-1">\n'+
-    '                <span class="ml-2 bd-highlight">'+ payment.write +'</span>\n'+
-    '            </div>\n'+
-    '        </div>\n'+
-    '    </div>\n'+
-    '</div>';
+    var HTML = '<div class="delivery_des delivery_des_new">\n' +
+        '    <div class="item mt-4">\n' +
+        '        <p><span>Phương thức thanh toán:</span></p>\n' +
+        '        <div class="payment_item mt-2">\n' +
+        '            <div class="d-flex align-items-center bd-highlight mt-1 mb-1">\n' +
+        '                <span class="ml-2 bd-highlight">' + payment.write + '</span>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '</div>';
     var nodeCart = document.getElementById(idHTML);
     nodeCart.innerHTML = HTML;
     return true;

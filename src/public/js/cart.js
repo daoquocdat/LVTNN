@@ -50,8 +50,7 @@ function addAmountInnerID(idHTML) {
     var sl = ListItemCart.length;
     nodeCart.innerText = sl;
     if (sl == 0) {
-        var cart = 'GIỎ HÀNG';
-        nodeCart.innerText = cart;
+        nodeCart.innerText = 'GIỎ HÀNG';
     }
 }
 
@@ -133,3 +132,8 @@ function showEmptyCart() {
         '  </div>\n' +
         '</div>';
 }
+
+
+
+
+
