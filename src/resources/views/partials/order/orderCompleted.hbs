@@ -1,10 +1,10 @@
 <div class="order-card">
     <div class="order-details row">
         <div class="col-6">
-            <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
+            <p><strong>Khách hàng:</strong>{{this.idAddress.fullName}}</p>
         </div>
         <div class="col-6">
-            <p><strong>Số điện thoại:</strong> 0123456789</p>
+            <p><strong>Số điện thoại:</strong>{{this.idAddress.phone}}</p>
         </div>
     </div>
     <div class="row">
@@ -19,8 +19,9 @@
         </div>
     </div>
     <ul class="order-items">
-        <li>3x Bánh mì</li>
-        <li>1x Nước cam</li>
+        {{#each this.details}}
+        <li>{{this.amount}}x {{this.name}}</li>
+        {{/each}}
     </ul>
     <div class="order-actions">
         <button class="btn-complete" onclick="showDetails()">Xem chi tiết</button>
