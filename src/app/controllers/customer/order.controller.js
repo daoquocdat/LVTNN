@@ -62,5 +62,16 @@ class OrderController {
         //     layout: 'main'
         // })
     }
+
+    //[GET] /api/orders
+    async getOrders(req, res) {
+        try {
+            const orders = await Order.find({}).lean();
+            res.json(orders);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Lấy danh sách đơn hàng thất bại!' });
+        }
+    }
 }
 module.exports = new OrderController();
