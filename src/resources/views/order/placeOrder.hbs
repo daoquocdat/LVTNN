@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    {{!-- Thanh quy trình --}}
     <div class="col-12 mb-4" id="1">
         <div class="nav_menu_header mb-4 text-center">
             Quy trình đặt hàng
@@ -44,16 +45,21 @@
             </ul>
         </div>
     </div>
+    
+    {{!-- Phần nội dung quy trình đặt hàng --}}
     <div class="col-left col-8 col-lg-8 offset-2">
         {{>order/address}}
         {{>order/payment}}
         {{>order/completion}}
     </div>
+
+    {{!-- Phần js của quy trình đặt đơn hàng --}}
     <script src="../../js/completion.js"></script>
     <script>
         showListItemCartInnerID('gio-hang');
         showTotalOrderMoneyInnerID('price_item_new');
         showTotalOrderMoneyInnerID('total_price');
+
         function showStep(step) {
             var steps = document.getElementsByClassName('step-form');
             for (var i = 0; i < steps.length; i++) {

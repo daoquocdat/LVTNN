@@ -34,7 +34,6 @@ class staffController {
                     ...order,
                     details: orderDetailsCompleted.filter(detail => detail.orderid.toString() === order._id.toString())
                 }));
-                // res.json({ordersNewWithDetails, ordersInProgressWithDetails, ordersCompletedWithDetails});
                 res.render('staff/staff', {
                     layout: 'staff',
                     ordersNew: ordersNewWithDetails,

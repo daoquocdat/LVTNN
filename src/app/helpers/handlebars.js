@@ -41,19 +41,16 @@ module.exports = {
             return '<button class="btn btn-danger btn-add-to-cart disable" >Hết hàng</button>'
         }
     },
-
     // Định nghĩa helper tùy chỉnh cho so sánh '==='
     ifEquals: function (arg1, arg2, options) {
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     },
-
     formatTime: function(dateTime) {
         const date = new Date(dateTime);
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
     },
-
     formatDateTime: function(dateTime) {
         const date = new Date(dateTime);
         const hours = date.getHours().toString().padStart(2, '0');

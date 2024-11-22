@@ -15,22 +15,28 @@
                 <span class="tag yellow" id="paymentMethod">{{this.payment}}</span>
                 <span class="tag red" id="promotionTag-{{this._id}}" style="display: none;">Khuyến mãi</span>
             </div>
-            <span class="total-amount float-left" id="totalAmount">{{this.moneyTotal}}.000 VND</span>
+
+        </div>
+        <div class="display-flex row">
+            <div class="col-5">
+                <span class="total-amount float-left" id=""> {{this.amount}} món</span>
+            </div>
+            <div class="col-7">
+                <span class="total-amount float-right" id="totalAmount">{{this.moneyTotal}}.000 VND</span>
+            </div>
         </div>
         <div>
             <ul class="order-items" id="productList">
                 {{#each this.details}}
                 <li>
-                    <img src="" alt="{{this.name}}" class="product-img">
-                    {{this.amount}}x {{this.name}}
+                    {{this.amount}} {{this.name}}
                 </li>
                 {{/each}}
             </ul>
         </div>
-
     </div>
     <div class="order-actions">
         <button class="btn-confirm" onclick="confirmOrder('{{this._id}}')">Xác nhận</button>
-        <button class="btn-cancel" onclick="showCancelModal()">Huỷ</button>
+        <button class="btn-cancel" onclick="showCancelModal('{{this._id}}')">Huỷ</button>
     </div>
 </div>

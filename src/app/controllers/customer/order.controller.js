@@ -36,7 +36,9 @@ class OrderController {
                 return OrderDetails.create({
                     foodid: item.id,
                     orderid: order._id,
-                    amount: item.amount
+                    name: item.name,
+                    amount: item.amount,
+                    price: item.price
                 });
             });
 
