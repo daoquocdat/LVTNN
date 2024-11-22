@@ -1,13 +1,15 @@
 const orderModel = require('../../models/order.model');
 const OrderDetails = require('../../models/orderDetail.model');
+const canceledOrderModel = require('../../models/canceledOrder.model');
 class staffController {
     index(req, res) {
         Promise.all([
             orderModel.find({ status: 'new' }).populate('idAddress').lean(),
             orderModel.find({ status: 'inProgress' }).populate('idAddress').lean(),
-            orderModel.find({ status: 'completed' }).populate('idAddress').lean()
+            orderModel.find({ status: 'completed' }).populate('idAddress').lean(),
+            canceledOrderModel.find({}).populate('orderId').lean()
         ])
-            .then(async ([ordersNew, ordersInProgress, ordersCompleted]) => {
+            .then(async ([ordersNew, ordersInProgress, ordersCompleted, ordersCancelled]) => {
                 const orderIdsNew = ordersNew.map(order => order._id);
                 const orderIdsInProgress = ordersInProgress.map(order => order._id);
                 const orderIdsCompleted = ordersCompleted.map(order => order._id);
@@ -38,7 +40,8 @@ class staffController {
                     layout: 'staff',
                     ordersNew: ordersNewWithDetails,
                     ordersInProgress: ordersInProgressWithDetails,
-                    ordersCompleted: ordersCompletedWithDetails
+                    ordersCompleted: ordersCompletedWithDetails,
+                    ordersCancelled
                 });
             })
             .catch(error => {

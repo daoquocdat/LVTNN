@@ -64,7 +64,7 @@
                     body: JSON.stringify({ id: id, reason: reason })
                 });
                 order = await response.json();
-                if ( order.msg ) {
+                if (order.msg) {
                     alert(order.msg);
                     return;
                 } else {
