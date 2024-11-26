@@ -44,7 +44,28 @@
                 // Nếu không có, hiển thị slide mặc định (slide đầu tiên)
                 showSlide('new-orders');
             }
+
+            // Chỉ cho phép hiển thị 3 chi tiết đơn hàng, nếu nhiều hơn thì hiển thị ...
+            var orderCards = document.querySelectorAll('.order-card');
+
+            orderCards.forEach(function (card) {
+                var orderItems = card.querySelector('.order-items');
+
+                if (orderItems) { // Kiểm tra nếu `orderItems` tồn tại
+                    var items = orderItems.querySelectorAll('li');
+                    if (items.length > 3) {
+                        for (var i = 3; i < items.length; i++) {
+                            items[i].style.display = 'none';
+                        }
+                        var moreItem = document.createElement('li');
+                        moreItem.textContent = '...';
+                        orderItems.appendChild(moreItem);
+                    }
+                }
+            });
         });
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('vi-VN');
+
         function showSlide(slideId) {
             const slides = document.querySelectorAll('.slide');
             slides.forEach(slide => slide.classList.remove('active'));
@@ -75,10 +96,6 @@
                 console.error('Error:', error);
             }
         }
-        function showDetails() {
-            // Hiển thị chi tiết đơn hàng
-            alert('Xem chi tiết đơn hàng!');
-        }
         function showCancelModal(id) {
             document.getElementById('cancelModal').classList.add('active');
             document.getElementById('cancelModal').setAttribute('data-order-id', id);
@@ -86,24 +103,6 @@
         function closeModal() {
             document.getElementById('cancelModal').classList.remove('active');
         }
-        //chỉ cho phép hiển thị 3 chi tiết đơn hàng, nếu nhiều hơn thì hiển thị ...
-        document.addEventListener('DOMContentLoaded', function () {
-            var orderCards = document.querySelectorAll('.order-card');
-
-            orderCards.forEach(function (card) {
-                var orderItems = card.querySelector('.order-items');
-                var items = orderItems.querySelectorAll('li');
-
-                if (items.length > 3) {
-                    for (var i = 3; i < items.length; i++) {
-                        items[i].style.display = 'none';
-                    }
-                    var moreItem = document.createElement('li');
-                    moreItem.textContent = '...';
-                    orderItems.appendChild(moreItem);
-                }
-            });
-        });
         function submitCancel() {
             const reason = document.getElementById('cancelReason').value;
             const id = document.getElementById('cancelModal').getAttribute('data-order-id');
@@ -111,7 +110,6 @@
             cancelOrder(id, reason);
             closeModal();
         }
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('vi-VN');
         function confirmOrder(id) {
             // Gửi yêu cầu xác nhận đơn hàng đến server
             fetch(`/staff/order/confirm/${id}`, {
@@ -131,18 +129,45 @@
                     console.error('Error:', error);
                 });
         }
-        function viewOrderDetails(card) {
-            // Xử lý khi xem chi tiết đơn hàng
+        async function viewOrderDetails(card) {
             card.classList.remove('new-order');
-            // Thêm các xử lý khác nếu cần
+
+            try {
+                const orderId = card.getAttribute('data-order-id');
+
+                // Fetch chi tiết đơn hàng từ API
+                const response = await fetch(`/staff/order/api/${orderId}`);
+                const orderDetailsJson = await response.json();
+                const orderDetails = orderDetailsJson.orderWithDetails;
+                
+                showSlide('details-orders');
+                // Cập nhật nội dung chi tiết đơn hàng
+                document.getElementById('customerName').textContent = orderDetails.idAddress.fullName;
+                document.getElementById('customerPhone').innerHTML = orderDetails.idAddress.phone;
+                document.getElementById('customerAddress').textContent = `${orderDetails.idAddress.address}, ${orderDetails.idAddress.wards}, ${orderDetails.idAddress.district}, ${orderDetails.idAddress.city}`;
+                document.getElementById('totalMoney').textContent = orderDetails.totalmoney;
+                document.getElementById('paymentMethod').textContent = orderDetails.payment;
+                document.getElementById('promotionText').textContent = orderDetails.promotion ? 'Có' : 'Không';
+
+                const productList = document.getElementById('productList');
+                //productList.innerHTML = orderDetails.details.map(detail => `<li>${detail.amount}x ${detail.name} - ${detail.price} VND</li>`).join('');\
+            } catch (error) {
+                console.error('Lỗi khi lấy đơn hàng:', error);
+            }
         }
+
+        function hideOrderDetails() {
+            document.getElementById('details-order').style.display = 'none';
+        }
+
+
 
         let orders = [];
         // Hàm lấy dữ liệu đơn hàng từ API
-        async function fetchOrders(orders) {
+        async function fetchOrders() {
             try {
                 const response = await fetch('/order/api/orders');
-                orders = await response.json();
+                const orders = await response.json();
                 document.querySelectorAll('.order-card').forEach(card => {
                     const orderId = card.getAttribute('data-order-id');
                     const order = orders.find(order => order._id === orderId); // Tìm đơn hàng tương ứng từ danh sách đơn hàng
@@ -160,6 +185,7 @@
                 promoTag.style.display = 'none';
             }
         }
+
         // Gọi hàm fetchOrders khi trang được tải
         window.onload = fetchOrders;
     </script>

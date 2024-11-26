@@ -1,5 +1,7 @@
 const orderModel = require("../../models/order.model");
 const canceledOrderModel = require("../../models/canceledOrder.model");
+const orderDetailModel = require("../../models/orderDetail.model");
+
 class OrderController {
     confirmOrder(req, res) {
         const id = req.body.id;
@@ -27,7 +29,7 @@ class OrderController {
 
     //[POST] /oder/cancel/:id
     cancel(req, res) {
-        try{
+        try {
             const id = req.body.id;
             const reason = req.body.reason;
             if (!reason) {
@@ -37,8 +39,8 @@ class OrderController {
                 .then((order) => {
                     canceledOrderModel.create({ orderId: id, reason: reason })
                         .then((canceledOrder) => {
-                        res.json(canceledOrder);
-                    })
+                            res.json(canceledOrder);
+                        })
                 })
                 .catch((error) => {
                     console.log('không thể huỷ đơn hàng', error);
@@ -46,6 +48,22 @@ class OrderController {
         } catch (error) {
             console.log('không thể huỷ đơn hàng', error);
         }
+    }
+
+    //[GET] /order/api/:id
+    async getOneOrder(req, res) {
+        const id = req.params.id;
+        Promise.all([
+            orderModel.findOne({ _id: id }).populate('idAddress').lean(),
+            orderDetailModel.find({ orderid: id }).populate('foodid').lean()
+        ])
+            .then(([order, orderDetails]) => {
+                const orderWithDetails = { ...order, orderDetails };
+                res.json({ orderWithDetails });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }
 module.exports = new OrderController();
