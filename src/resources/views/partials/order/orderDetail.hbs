@@ -1,0 +1,76 @@
+<div id="details-orders" class="details-order" style="display: none;">
+    <div class="details-order-header">
+        <h1>Chi tiết đơn hàng</h1>
+        <button class="close-btn" onclick="hideOrderDetails()"><i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="row container mt-3">
+        <div class="col-6">
+            <h2>Khách hàng: <span id="customerNameDO"></span></h2>
+            <p>Số điện thoại: <span id="customerPhoneDO"></span></p>
+            <p>Địa chỉ: <span id="customerAddressDO"></span></p>
+            <p>Tổng tiền: <span id="totalMoneyDO"></span>.000 VND</p>
+            <p>Phương thức thanh toán: <span id="paymentMethodDO"></span></p>
+            <p id="promotion">Khuyến mãi: <span id="promotionTextDO"></span></p>
+        </div>
+        <div class="col-6">
+            <h2><span id="amountDO"></span> món</h2>
+            <ul id="productListDO"></ul>
+        </div>
+    </div>
+</div>
+<style>
+    .details-order {
+        position: fixed;
+        /* Hoặc absolute nếu bạn muốn */
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        /* Đảm bảo thẻ này hiển thị trên cùng */
+        overflow-y: auto;
+        /* Đảm bảo có thể cuộn nếu nội dung quá dài */
+        display: none;
+        /* Mặc định ẩn đi */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        transform: scale(0.95);
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .details-order-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .product-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .product-item img {
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+    }
+</style>

@@ -31,39 +31,5 @@
             {{/ordersCancelled}}
         </div>
     </div>
-    <div id="details-orders" class="slide">
-        <h1>Chi tiết đơn hàng</h1>
-        <!-- Thẻ chi tiết đơn hàng -->
-        <div id="details" class="details-order">
-            <h2>Khách hàng: <span id="customerName"></span></h2>
-            <p>Số điện thoại: <span id="customerPhone"></span></p>
-            <p>Địa chỉ: <span id="customerAddress"></span></p>
-            <p>Tổng tiền: <span id="totalMoney"></span> VND</p>
-            <p>Phương thức thanh toán: <span id="paymentMethod"></span></p>
-            <p id="promotion">Khuyến mãi: <span id="promotionText"></span></p>
-            <h3>Sản phẩm</h3>
-            <ul id="productList"></ul>
-            <button onclick="hideOrderDetails()">Quay lại</button>
-        </div>
-        <style>
-            .details-order {
-                background-color: #fff;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                padding: 20px;
-                margin-top: 20px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .order-category {
-                display: none;
-                /* Mặc định ẩn các thẻ này khi hiển thị chi tiết đơn hàng */
-            }
-
-            .order-category.active {
-                display: block;
-                /* Hiển thị các thẻ này khi không hiển thị chi tiết đơn hàng */
-            }
-        </style>
-    </div>
+    {{>order/orderDetail}}
 </div>

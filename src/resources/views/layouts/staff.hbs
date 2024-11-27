@@ -137,31 +137,44 @@
 
                 // Fetch chi tiết đơn hàng từ API
                 const response = await fetch(`/staff/order/api/${orderId}`);
-                const orderDetailsJson = await response.json();
-                const orderDetails = orderDetailsJson.orderWithDetails;
-                
-                showSlide('details-orders');
-                // Cập nhật nội dung chi tiết đơn hàng
-                document.getElementById('customerName').textContent = orderDetails.idAddress.fullName;
-                document.getElementById('customerPhone').innerHTML = orderDetails.idAddress.phone;
-                document.getElementById('customerAddress').textContent = `${orderDetails.idAddress.address}, ${orderDetails.idAddress.wards}, ${orderDetails.idAddress.district}, ${orderDetails.idAddress.city}`;
-                document.getElementById('totalMoney').textContent = orderDetails.totalmoney;
-                document.getElementById('paymentMethod').textContent = orderDetails.payment;
-                document.getElementById('promotionText').textContent = orderDetails.promotion ? 'Có' : 'Không';
+                const orderDetailsJSON = await response.json();
+                const orderWithDetails = orderDetailsJSON.orderWithDetails;
 
-                const productList = document.getElementById('productList');
-                //productList.innerHTML = orderDetails.details.map(detail => `<li>${detail.amount}x ${detail.name} - ${detail.price} VND</li>`).join('');\
+                // Hiển thị thẻ chi tiết đơn hàng
+                document.getElementById('details-orders').style.display = 'block';
+                console.log(orderWithDetails);
+                // Cập nhật nội dung chi tiết đơn hàng
+                document.getElementById('customerNameDO').textContent = orderWithDetails.idAddress.fullName;
+                document.getElementById('customerPhoneDO').textContent = orderWithDetails.idAddress.phone;
+                document.getElementById('customerAddressDO').textContent = `${orderWithDetails.idAddress.address}, ${orderWithDetails.idAddress.wards}, ${orderWithDetails.idAddress.district}, ${orderWithDetails.idAddress.city}`;
+                document.getElementById('totalMoneyDO').textContent = orderWithDetails.moneyTotal;
+                document.getElementById('paymentMethodDO').textContent = orderWithDetails.payment;
+                document.getElementById('promotionTextDO').textContent = orderWithDetails.promotion ? 'Có' : 'Không';
+                document.getElementById('amountDO').textContent = orderWithDetails.amount;
+
+                const productList = document.getElementById('productListDO');
+                productList.innerHTML = orderWithDetails.orderDetails.map(detail => `
+                        <li class="list-group-item product-item">
+                            <img src="/upload/${detail.foodid.image}" alt="${detail.name}" class="img-thumbnail" style="width: 50px; height: 50px;">
+                            <span>${detail.amount}x ${detail.name} - ${detail.price}.000 VND</span>
+                        </li>
+                    `).join('');
+
+
             } catch (error) {
                 console.error('Lỗi khi lấy đơn hàng:', error);
             }
         }
 
         function hideOrderDetails() {
-            document.getElementById('details-order').style.display = 'none';
+            const detailsOrder = document.getElementById('details-orders');
+            if (detailsOrder) {
+                detailsOrder.classList.remove('show');
+                detailsOrder.style.display = 'none';
+            } else {
+                console.error('Thẻ details-orders không tồn tại');
+            }
         }
-
-
-
         let orders = [];
         // Hàm lấy dữ liệu đơn hàng từ API
         async function fetchOrders() {
