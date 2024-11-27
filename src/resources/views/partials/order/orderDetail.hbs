@@ -1,44 +1,106 @@
 <div id="details-orders" class="details-order" style="display: none;">
     <div class="details-order-header">
-        <h1>Chi tiết đơn hàng</h1>
-        <button class="close-btn" onclick="hideOrderDetails()"><i class="fas fa-times"></i>
-        </button>
+        <h3>Chi tiết đơn hàng</h3>
+        <button class="close-btn" onclick="hideOrderDetails()"><i class="fas fa-times"></i></button>
     </div>
-
-    <div class="row container mt-3">
-        <div class="col-6">
-            <h2>Khách hàng: <span id="customerNameDO"></span></h2>
-            <p>Số điện thoại: <span id="customerPhoneDO"></span></p>
-            <p>Địa chỉ: <span id="customerAddressDO"></span></p>
-            <p>Tổng tiền: <span id="totalMoneyDO"></span>.000 VND</p>
-            <p>Phương thức thanh toán: <span id="paymentMethodDO"></span></p>
-            <p id="promotion">Khuyến mãi: <span id="promotionTextDO"></span></p>
+    <div class="order-section p-3">
+        <div class="bg-white border-radius-20 m-3 p-3">
+            <ul id="productListDO" class="list-group"></ul>
+            <button id="showMoreBtn" class="btn btn-link d-none" onclick="toggleProductList()">
+                <i class="fas fa-chevron-down" id="iconDown"></i> Xem thêm
+            </button>
         </div>
-        <div class="col-6">
-            <h2><span id="amountDO"></span> món</h2>
-            <ul id="productListDO"></ul>
+        <div>
+            <div class="bg-white border-radius-20 p-3 m-3" style="width: 450px;">
+                <div class="col">
+                    <h4 class="text-center">Địa chỉ nhận hàng</h4>
+                    <div class="d-flex">
+                        <i class="fas fa-map-marker-alt pr-2 pt-1"></i>
+                        <div class="d-flex flex-column">
+                            <div>
+                                <span id="customerNameDO" class="font-weight-bold"></span>
+                                <span id="customerPhoneDO" class="text-muted"></span>
+                            </div>
+                            <span id="customerAddressDO"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white border-radius-20 p-3 m-3">
+                <div class="">
+                    Mã đơn hàng
+                    <div class="float-right">
+                        <span id="orderIdDO" class="font-weight-bold"></span>
+                    </div>
+                </div>
+                <div>
+                    Phương thức thanh toán
+                    <div class="float-right">
+                        <span id="paymentMethodDO" class=""></span>
+                    </div>
+                </div>
+                <hr>
+                Thời gian đặt hàng: <span id="orderTimeDO"></span>
+            </div>
+            <div class="bg-white border-radius-20 p-3 m-3">
+                <div class="d-flex justify-content-between">
+                    <div>Tổng tiền hàng (<span id="amountDO"></span> món)</div>
+                    <div><span id="totalMoneyDO"></span>.000 VND</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>Phí giao hàng</div>
+                    <div><span id="shippingFeeDO"></span>69.600 VND</div>
+                </div>
+                <p id="promotion">Khuyến mãi <span id="promotionTextDO"></span></p>
+                <hr>
+                <div>
+                    <i class="fas fa-chevron-up pl-3"></i>
+                    <div class="float-right">
+                        <p>Thành tiền <span id="finalMoneyDO" class="float-right"></span>.000 VND</p>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    <!-- Thêm thẻ footer -->
+    <div id="orderFooter" class="details-order-footer bg-light p-3 d-flex justify-content-between" style="display: none;">
+        <button class="btn btn-success" id="confirmOrderBtn" >Xác nhận đơn hàng</button>
+        <button class="btn btn-primary" id="completeOrderBtn" "">Hoàn tất đơn hàng</button>
+        <button class="btn btn-danger" id="cancelOrderBtn" >Hủy đơn hàng</button>
     </div>
 </div>
+
+<script>
+    function toggleProductList() {
+        const productList = document.getElementById('productListDO');
+        const iconDown = document.getElementById('iconDown');
+        productList.classList.toggle('show-all');
+        if (productList.classList.contains('show-all')) {
+            iconDown.classList.remove('fa-chevron-down');
+            iconDown.classList.add('fa-chevron-up');
+        } else {
+            iconDown.classList.remove('fa-chevron-up');
+            iconDown.classList.add('fa-chevron-down');
+        }
+    }
+</script>
+
 <style>
     .details-order {
         position: fixed;
-        /* Hoặc absolute nếu bạn muốn */
-        top: 10%;
-        left: 10%;
-        width: 80%;
-        height: 80%;
-        background-color: #fff;
+        top: 50%;
+        left: 50%;
+        min-width: 60%;
+        max-width: 80%;
+        max-height: 80%;
+        background-color: #ebebebfa;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         z-index: 1000;
-        /* Đảm bảo thẻ này hiển thị trên cùng */
         overflow-y: auto;
-        /* Đảm bảo có thể cuộn nếu nội dung quá dài */
         display: none;
-        /* Mặc định ẩn đi */
         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        transform: scale(0.95);
+        transform: scale(0.95)translate(-50%, -50%);
     }
 
     .close-btn {
@@ -60,6 +122,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        /* Đảm bảo nó nằm trên các phần tử khác */
     }
 
     .product-item {
@@ -70,7 +136,29 @@
 
     .product-item img {
         margin-right: 10px;
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .details-order-footer {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        bottom: 0;
+    }
+
+    .product-item:nth-child(n+4) {
+        display: none !important;
+        /* Ẩn các sản phẩm từ vị trí thứ 4 trở đi */
+    }
+
+    .show-all .product-item {
+        display: flex !important;
+        /* Hiển thị tất cả sản phẩm khi nhấn nút */
     }
 </style>
