@@ -153,6 +153,7 @@
                 const response = await fetch(`/staff/order/api/${orderId}`);
                 const orderDetailsJSON = await response.json();
                 const orderWithDetails = orderDetailsJSON.orderWithDetails;
+                const dateTimeOrder = new Date(orderWithDetails.createdAt);
 
                 // Hiển thị thẻ chi tiết đơn hàng
                 const detailsOrder = document.getElementById('details-orders');
@@ -171,6 +172,9 @@
                     document.getElementById('promotionTextDO').textContent = orderWithDetails.promotion ? 'Có' : 'Không';
                     document.getElementById('amountDO').textContent = orderWithDetails.orderDetails.length;
                     document.getElementById('orderIdDO').textContent = orderWithDetails._id;
+                    document.getElementById('shippingFeeDO').textContent = orderWithDetails.shippingFee;
+                    document.getElementById('finalMoneyDO').textContent = orderWithDetails.finalMoney + '.000 VND';
+                    document.getElementById('orderDateDO').textContent = dateTimeOrder.toLocaleString('vi-VN');
 
                     const productList = document.getElementById('productListDO');
                     productList.innerHTML = orderWithDetails.orderDetails.map(detail => `
@@ -181,13 +185,13 @@
                     <div class="col-8">
                         <div class="row">
                             <div class="col-12">
-                                <span class="product-name float-right">${detail.foodid.name}</span>
+                                <span class="product-name">${detail.foodid.name}</span>
                             </div>
                             <div class="col-12">
                                 <span class="product-quantity float-right">${detail.amount}x</span>
                             </div>
                             <div class="col-12">
-                                <span class="product-price float-right">${detail.price}.000 VND</span>
+                                <span class="product-price float-right">${detail.price * detail.amount}.000 VND</span>
                             </div>
                         </div>
                     </div>

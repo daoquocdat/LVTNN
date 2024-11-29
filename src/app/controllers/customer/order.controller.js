@@ -28,7 +28,9 @@ class OrderController {
                 idAddress: address._id,
                 status: 'new',
                 moneyTotal: req.body.items.reduce((total, item) => total + item.amount * item.price, 0),
-                payment: req.body.paymentMethod
+                payment: req.body.paymentMethod,
+                shippingFee: 15,
+                finalMoney: req.body.items.reduce((total, item) => total + item.amount * item.price, 0) + 15
             });
 
             // Lưu lại chi tiết đơn hàng
