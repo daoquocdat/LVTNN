@@ -2,6 +2,15 @@ const Address = require('../../models/address.model'); // Đảm bảo bạn đ�
 const Order = require('../../models/order.model'); // Đảm bảo bạn đã tạo mô hình Order
 const OrderDetails = require('../../models/orderDetail.model'); // Đảm bảo bạn đã tạo mô hình OrderDetails
 
+const crypto = require('crypto');
+const axios = require('axios');
+
+const partnerCode = 'MOMOT5BZ20231213_TEST'; // Mã đối tác giả lập
+const accessKey = 'ACCESS_KEY'; // Khóa truy cập giả lập
+const secretKey = 'SECRET_KEY'; // Khóa bí mật giả lập
+const redirectUrl = 'http://localhost:3000/result'; // URL chuyển hướng giả lập
+const ipnUrl = 'http://localhost:3000/ipn'; // URL nhận thông báo giả lập
+
 class OrderController {
     //[GET] /address
     async placeOrder(req, res) {
@@ -28,7 +37,9 @@ class OrderController {
                 idAddress: address._id,
                 status: 'new',
                 moneyTotal: req.body.items.reduce((total, item) => total + item.amount * item.price, 0),
-                payment: req.body.paymentMethod
+                payment: req.body.paymentMethod,
+                shippingFee: 15,
+                finalMoney: req.body.items.reduce((total, item) => total + item.amount * item.price, 0) + 15
             });
 
             // Lưu lại chi tiết đơn hàng
@@ -56,7 +67,6 @@ class OrderController {
         }
     }
 
-
     //[GET] /confirmation
     confirmation(req, res) {
         res.redirect('/');
@@ -73,6 +83,50 @@ class OrderController {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: 'Lấy danh sách đơn hàng thất bại!' });
+        }
+    }
+
+    payment(req, res) {
+        res.render('order/payment', {
+            layout: 'main'
+        })
+    }
+
+    async paymentMomo(req, res) {
+        const { amount, orderId, orderInfo } = req.body;
+
+        const requestId = partnerCode + new Date().getTime();
+        const rawSignature = `accessKey=${encodeURIComponent(accessKey)}&amount=${encodeURIComponent(amount)}&extraData=${encodeURIComponent('')}&ipnUrl=${encodeURIComponent(ipnUrl)}&orderId=${encodeURIComponent(orderId)}&orderInfo=${encodeURIComponent(orderInfo)}&partnerCode=${encodeURIComponent(partnerCode)}&redirectUrl=${encodeURIComponent(redirectUrl)}&requestId=${encodeURIComponent(requestId)}&requestType=${encodeURIComponent('captureWallet')}`;
+
+        console.log('rawSignature:', rawSignature);
+
+        const signature = crypto.createHmac('sha256', secretKey)
+            .update(rawSignature)
+            .digest('hex');
+
+        console.log('signature:', signature);
+
+        const requestBody = {
+            partnerCode,
+            accessKey,
+            requestId,
+            amount,
+            orderId,
+            orderInfo,
+            redirectUrl,
+            ipnUrl,
+            extraData: '',
+            requestType: 'captureWallet',
+            signature,
+        };
+
+        try {
+            const response = await axios.post('https://test-payment.momo.vn/v2/gateway/api/create', requestBody);
+            console.log(response.data);
+            res.json(response.data);
+        } catch (error) {
+            console.error(error.response ? error.response.data : error.message);
+            res.status(500).json({ message: 'Internal Server Error' });
         }
     }
 }

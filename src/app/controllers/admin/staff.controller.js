@@ -1,12 +1,13 @@
 const staffModel = require("../../models/staff.model");
+const adminModel = require("../../models/admin.model");
 const bcrypt = require("bcrypt");
 const { multipleMongooseToOject } = require("../../../util/mongoose");
 const { validateErrorHandler } = require("../../common/handleError");
 class staffController {
   index(req, res) {
     console.log("staff");
-    staffModel
-      .find({})
+    adminModel
+      .find({ role: "staff" })
       .then((staffs) => {
         res.render("staff/index", {
           staffs: multipleMongooseToOject(staffs),
@@ -18,7 +19,7 @@ class staffController {
       });
   }
   getOne(req, res) {
-    staffModel
+    adminModel
       .findById(req.params.id)
       .then((staff) => {
         res.json({ data: staff });
@@ -36,7 +37,7 @@ class staffController {
     // Tạo hash cho password
     const salt = bcrypt.genSaltSync(10);
     // Tạo instance mới của staffModel
-    const staff = new staffModel({
+    const staff = new adminModel({
       name,
       username,
       password: password ? await bcrypt.hash(password, salt) : password,
@@ -79,7 +80,7 @@ class staffController {
       params.password = await bcrypt.hash(password, salt);
     }
 
-    staffModel
+    adminModel
       .findByIdAndUpdate(req.params.id, params, {
         new: true,
         runValidators: true, // Đảm bảo kiểm tra lại các điều kiện khác
@@ -96,7 +97,7 @@ class staffController {
   }
 
   block(req, res) {
-    staffModel
+    adminModel
       .findByIdAndUpdate(req.params.id, {
         status: "inactive",
       })
@@ -109,7 +110,7 @@ class staffController {
       });
   }
   unBlock(req, res) {
-    staffModel
+    adminModel
       .findByIdAndUpdate(req.params.id, {
         status: "active",
       })

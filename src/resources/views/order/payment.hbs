@@ -1,0 +1,43 @@
+<div class="payment-methods">
+    <h3>Chọn phương thức thanh toán</h3>
+    <button class="btn btn-primary" onclick="payWithMoMo()">Thanh toán MoMo</button>
+</div>
+
+<script>
+    async function payWithMoMo() {
+        try {
+            const response = await fetch('/order/api/payment/momo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: 100000, // Số tiền thanh toán (đổi theo yêu cầu)
+                    orderId: 'MO' + Date.now(),
+                    orderInfo: 'Thanh toán đơn hàng ABC'
+                })
+            });
+            const data = await response.json();
+            if (data && data.payUrl) {
+                window.location.href = data.payUrl;
+            } else {
+                alert('Đã xảy ra lỗi khi tạo thanh toán MoMo');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Đã xảy ra lỗi khi tạo thanh toán MoMo');
+        }
+    }
+</script>
+
+<style>
+    .payment-methods {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+</style>

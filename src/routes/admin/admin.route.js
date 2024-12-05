@@ -10,9 +10,7 @@ router.post('/login', adminController.login);
 router.get('/logout', adminController.logout);
 router.get('/:id', adminController.getOne);
 router.post('/', adminController.create);
-router.delete('/:id/delete', adminController.delete);
+
 router.put('/:id/update', adminController.update);
-router.delete('/:id/soft', adminController.softDelete);
-router.put('/:id/restore', adminController.restore);
 
 module.exports = router;
