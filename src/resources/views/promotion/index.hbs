@@ -1,0 +1,153 @@
+<div class="content-wrapper">
+    <div class="content-header">
+        <center>
+            <h2 style="color: rgb(0, 0, 0)"><i class="fas fa-hamburger"></i>
+                Quản lý Khuyến mãi<h2>
+        </center>
+        <div class="breadcrumb">
+            {{!-- <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search..." /><i class="fa fa-search"
+                    aria-hidden="true"></i>
+            </div> --}}
+            <a class="btn btn-primary btn-sm" href="/admin/promotion/create" role="button">
+                Thêm
+                <span class="fas fa-plus-circle"></span>
+            </a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box" id="view">
+                    <div class="box-body">
+                        <div class="row" style="padding:0px; margin:0px;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                <center>Stt</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Tên</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Giam giá</center>
+                                            </th>
+                                            <th scope="col">
+                                                <center>Chuc nang</center>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="products-container">
+                                        {{#promotions}}
+                                        <tr>
+                                            <th scope="row">
+                                                <center>{{sum @index 1}}</center>
+                                            </th>
+                                            <td>{{name}}</td>
+                                            <td>
+                                                <center>{{discount}}%</center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <a href="/admin/food/{{this._id}}/edit"
+                                                        class="btn btn-warning">Sửa</a>
+                                                    <a href="" class="btn btn-danger" data-id="{{this._id}}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#delete-food-modal">Xóa</a>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        {{/promotions}}
+                                    </tbody>
+                                </table>
+
+                                {{! Confirm delete course}}
+                                <div class="modal fade" id="delete-food-modal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Xóa món
+                                                    này</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn chắc chắn muốn xóa ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" id="btn-delete-food">Xóa
+                                                    bỏ</button>
+                                                <button type="button" class="btn btn-outline-dark"
+                                                    data-bs-dismiss="modal">Hủy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form name="delete-food-form" method="POST"></form>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var foodId;
+                                        var deleteForm = document.forms['delete-food-form'];
+                                        var btnDeleteFood = document.getElementById('btn-delete-food');
+                                        $('#delete-food-modal').on('show.bs.modal', function (event) {
+                                            var button = $(event.relatedTarget);
+                                            foodId = button.data('id');
+                                        });
+                                        btnDeleteFood.onclick = function () {
+                                            deleteForm.action = '/admin/food/' + foodId +
+                                                '?_method=DELETE'; deleteForm.submit();
+                                        }
+                                    })
+                                    console.log("Staff Index")
+                                    document.getElementById("search-input").addEventListener("keydown",
+                                        async function (event) {
+                                            if (event.key === "Enter") {
+                                                const
+                                                    keyword = event.target.value.trim(); if (keyword) {
+                                                        console.log("Searching for:", keyword); // Thực hiện logic tìm
+                                                        const search = await
+                                                            axios.get(`${process.env.DOMAIN}/admin/food/search?keyword=${keyword}`)
+                                                        console.log(search.data.data.length, "search.data a")
+                                                        updateProducts(search.data.data);
+                                                    }
+                                            }
+                                        }); // Hàm cập nhật bảng
+                  sản phẩm function updateProducts(products) {
+                                        const
+                                            productsContainer =
+                                                document.getElementById("products-container");
+                                        productsContainer.innerHTML = ""; // Xóa dữ liệu cũ trong
+                  tbody if (products.length > 0) {
+                                            products.forEach((product,
+                                                index) => {
+                                                const row = document.createElement("tr");
+                                                row.innerHTML = ` <th scope="row"><center>${index +
+                                                    1}</center></th> <td><center><img
+                  src="/upload/${product.image}" alt="${product.name}"
+                  class="img-food-admin" /></center></td>
+                  <td>${product.name}</td> <td>${product.description}</td>
+                  <td><center>${product.foodtypeid.nameType}</center></td>
+                  <td><center><span>${product.price}.000đ</span></center></td>
+                  <td> <center> <a href="/admin/food/${product._id}/edit"
+                  class="btn btn-warning">Sửa</a> <a href="#" class="btn
+                  btn-danger" data-id="${product._id}" data-bs-toggle="modal"
+                  data-bs-target="#delete-food-modal">Xóa</a> </center> </td> `;
+                                                productsContainer.appendChild(row);
+                                            });
+                                        } else {
+                                            productsContainer.innerHTML = "<tr><td colspan='7'>Không tìm
+                  thấy sản phẩm nào.</td ></tr > "; } }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
