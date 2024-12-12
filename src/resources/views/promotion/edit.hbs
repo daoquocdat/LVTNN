@@ -21,17 +21,15 @@
             <div id="items"></div>
         </div>
         <div class="col-6">
-
-
-            <form method="POST" action="/admin/food/{{_id}}/update?_method=PUT " enctype="multipart/form-data">
+            <form method="POST" action="/admin/promotion/{{_id}}/update?_method=PUT">
                 {{#promotion}}
                 <div id="promotionId" data-id="{{_id}}"></div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Tên khuyen mai"
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Tên khuyến mãi"
                         value="{{name}}" />
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" id="discount" name="discount" placeholder="% giam"
+                    <input type="number" class="form-control" id="discount" name="discount" placeholder="% giảm giá"
                         value="{{discount}}" />
                 </div>
                 {{/promotion}}
@@ -53,7 +51,43 @@
 <script>
     const promotionItemsData = [];
     const itemsData = [];
-    
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const promotionForm = document.querySelector('form');
+
+        promotionForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Ngăn sự kiện submit mặc định của form
+
+            const name = document.getElementById('name').value;
+            const discount = document.getElementById('discount').value;
+            const promotionId = document.getElementById('promotionId').getAttribute('data-id');
+
+            const data = {
+                name: name,
+                discount: discount,
+                promotionItems: promotionItemsData
+            };
+
+            // Gửi dữ liệu qua fetch
+            fetch(`/admin/promotion/${promotionId}/update?_method=PUT`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // Chuyển hướng về trang index sau khi cập nhật thành công
+                    window.location.href = '/admin/promotion/index';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Xử lý lỗi, ví dụ như hiển thị thông báo lỗi cho người dùng
+                });
+        });
+    });
     document.addEventListener('DOMContentLoaded', async function () {
         let promotionId = document.getElementById('promotionId');
         let id = promotionId.getAttribute('data-id');

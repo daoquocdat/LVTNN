@@ -78,6 +78,35 @@ class promotionController {
             })
     }
 
+    async update(req, res) {
+        try {
+            //update promotion
+            await promotionModel.findByIdAndUpdate(req.params.id, {
+                name: req.body.name,
+                discount: req.body.discount
+            })
+            const setpromotionIdNull = await foodModel.updateMany({ promotionid: req.params.id }, { promotionid: null });
+            const promotionItems = req.body.promotionItems.map(item => {
+                foodModel.findById(item._id)
+                    .then((food) => {
+                        food.promotionid = req.params.id;
+                        food.save();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).send('Internal Server Error');
+                    });
+                return {
+                    foodid: item.id,
+                    promotionid: req.params.id,
+                };
+            });
+            res.json(promotionItems);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     getPromotionFoods(req, res) {
         foodModel.find({ promotionid: req.params.id }).lean()
             .then(foods => {

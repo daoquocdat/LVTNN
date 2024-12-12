@@ -10,5 +10,6 @@ router.delete('/:id', promotionController.delete);
 router.get('/api/unpromotion/:id', promotionController.getNotPromotionFoods);
 router.get('/api/:id', promotionController.getPromotionFoods);
 router.get('/:id/edit', promotionController.edit);
+router.put('/:id/update', promotionController.update);
 
 module.exports = router
