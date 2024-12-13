@@ -5,34 +5,30 @@ class promotionController {
     index(req, res) {
         promotionModel.find({}).lean()
             .then(promotions => {
+                console.log(promotions);
                 res.render('promotion/index', {
                     promotions,
                     layout: 'admain'
                 })
             })
     }
-
     create(req, res) {
-        foodModel.find({ promotionid: null }).lean()
-            .then(foods => {
-                res.render('promotion/create', {
-                    foods,
-                    layout: 'admain'
-                });
-            })
+        res.render('promotion/create', {
+            layout: 'admain'
+        })
     }
-
     store(req, res) {
         try {
             // luu lai khuyen mai
             const promotion = new promotionModel({
                 name: req.body.name,
                 discount: req.body.discount,
+                amount: req.body.promotionItems.length
             });
             promotion.save();
             // luu lai chi tiet khuyen mai
             const promotionItems = req.body.promotionItems.map(item => {
-                foodModel.findById(item.id)
+                foodModel.findById(item._id)
                     .then((food) => {
                         food.promotionid = promotion._id;
                         food.save();
@@ -51,7 +47,6 @@ class promotionController {
             console.log(error);
         }
     }
-
     async delete(req, res) {
         Promise.all([
             promotionModel.findByIdAndDelete(req.params.id),
@@ -62,12 +57,9 @@ class promotionController {
                 console.log(error);
             })
     }
-
     async edit(req, res) {
-        Promise.all([
-            promotionModel.findById(req.params.id).lean(),
-        ])
-            .then(([promotion, foods, otherFoods]) => {
+        await promotionModel.findById(req.params.id).lean()
+            .then((promotion) => {
                 res.render('promotion/edit', {
                     promotion,
                     layout: 'admain'
@@ -77,13 +69,13 @@ class promotionController {
                 console.log(error);
             })
     }
-
     async update(req, res) {
         try {
             //update promotion
             await promotionModel.findByIdAndUpdate(req.params.id, {
                 name: req.body.name,
-                discount: req.body.discount
+                discount: req.body.discount,
+                amount: req.body.promotionItems.length
             })
             const setpromotionIdNull = await foodModel.updateMany({ promotionid: req.params.id }, { promotionid: null });
             const promotionItems = req.body.promotionItems.map(item => {
@@ -106,7 +98,6 @@ class promotionController {
             console.log(error);
         }
     }
-
     getPromotionFoods(req, res) {
         foodModel.find({ promotionid: req.params.id }).lean()
             .then(foods => {
@@ -117,7 +108,6 @@ class promotionController {
             })
 
     }
-
     getNotPromotionFoods(req, res) {
         foodModel.find({ promotionid: null }).lean()
             .then(foods => {

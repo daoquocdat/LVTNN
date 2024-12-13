@@ -103,7 +103,7 @@
         }
 
         try {
-            const response = await fetch('/admin/promotion/api/unpromotion/' + id);
+            const response = await fetch('/admin/promotion/api/unpromotion');
             const foods = await response.json();
 
             // Thêm (push) dữ liệu foods vào promotionItemsData
