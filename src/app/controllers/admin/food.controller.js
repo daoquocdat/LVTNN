@@ -14,17 +14,21 @@ const slugify = (text) => {
 class FoodController {
     //[GET] /admin/food
     async getAll(req, res) {
-        const foodGetAll = await foodModel.find({}).populate('foodtypeid')
-            .then((food) => {
-                res.render('food/index', {
-                    food,
-                    layout: 'admain'
-                })
-            })
-            .catch(error => {
-                console.log(error);
+        try {
+            const foodGetAll = await foodModel.find({})
+                .populate('foodtypeid')
+                .populate('promotionid') // Thêm phần populate promotionId
+                .lean();
+
+            res.render('food/index', {
+                food: foodGetAll,
+                layout: 'admain'
             });
-    };
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
 
     //[GET] /admin/food/create
     create(req, res, next) {
@@ -37,7 +41,6 @@ class FoodController {
             )
             .catch(next);
     }
-
     //[POST] /admin/food/store
     async store(req, res) {
         try {
@@ -57,8 +60,6 @@ class FoodController {
             res.status(500).send('Error saving food item');
         }
     }
-
-
     //[GET] /admin/food/delete
     delete(req, res) {
         const id = req.params.id;
@@ -68,7 +69,6 @@ class FoodController {
                 console.log(error);
             })
     }
-
     //[GET] /admin/food/update
     edit(req, res) {
         const id = req.params.id;
@@ -83,7 +83,6 @@ class FoodController {
                 console.log(error);
             })
     }
-
     //[PUT] /admin/food/:id
     async update(req, res) {
         const slug = `${slugify(req.body.name)}-${Date.now()}`;
@@ -100,7 +99,6 @@ class FoodController {
                 console.log(error);
             })
     }
-
     search(req, res) {
         const search = req.query.keyword;
         console.log(search, "search")

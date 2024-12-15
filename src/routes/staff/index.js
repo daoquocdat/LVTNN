@@ -10,5 +10,4 @@ router.get('/login', (req, res) => {
     res.render('./staff/login', { layout: 'login' });
 });
 
-
 module.exports = router;

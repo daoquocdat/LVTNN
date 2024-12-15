@@ -10,7 +10,8 @@ const bodyParser = require("body-parser"); // khai báo body-parser
 const methodOverride = require("method-override"); // khai báo method-override
 const upload = require("./app/middlewares/multer"); // khai báo multer
 const { handleError } = require("./app/common/handleError.js");
-
+// const passport = require("passport");
+const passport = require("./config/passport/passport");
 // cài đặt body-parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,38 +42,52 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // cài đặt router override
 app.use(methodOverride("_method"));
-
+app.use(passport.initialize());
 router(app); //route đường dẫn
 
 app.listen(3000, () =>
   console.log(`App listening at http://localhost:${port}`)
 ); //lắng nghe port 3000
 
-
-const crypto = require('crypto');
-const secretKey = 'SECRET_KEY'; // Khóa bí mật giả lập
+const crypto = require("crypto");
+const secretKey = "SECRET_KEY"; // Khóa bí mật giả lập
 
 // Route IPN để nhận thông báo từ MoMo
-app.post('/ipn', (req, res) => {
-    const { partnerCode, orderId, requestId, amount, orderInfo, orderType, transId, resultCode, message, payType, responseTime, extraData, signature } = req.body;
+app.post("/ipn", (req, res) => {
+  const {
+    partnerCode,
+    orderId,
+    requestId,
+    amount,
+    orderInfo,
+    orderType,
+    transId,
+    resultCode,
+    message,
+    payType,
+    responseTime,
+    extraData,
+    signature,
+  } = req.body;
 
-    // Kiểm tra chữ ký (signature)
-    const rawSignature = `accessKey=${accessKey}&amount=${amount}&extraData=${extraData}&message=${message}&orderId=${orderId}&orderInfo=${orderInfo}&orderType=${orderType}&partnerCode=${partnerCode}&payType=${payType}&requestId=${requestId}&responseTime=${responseTime}&resultCode=${resultCode}&transId=${transId}`;
-    
-    const checkSignature = crypto.createHmac('sha256', secretKey)
-                                .update(rawSignature)
-                                .digest('hex');
+  // Kiểm tra chữ ký (signature)
+  const rawSignature = `accessKey=${accessKey}&amount=${amount}&extraData=${extraData}&message=${message}&orderId=${orderId}&orderInfo=${orderInfo}&orderType=${orderType}&partnerCode=${partnerCode}&payType=${payType}&requestId=${requestId}&responseTime=${responseTime}&resultCode=${resultCode}&transId=${transId}`;
 
-    if (signature === checkSignature) {
-        if (resultCode === 0) {
-            // Xử lý khi thanh toán thành công
-            console.log('Thanh toán thành công:', { orderId, transId, amount });
-        } else {
-            // Xử lý khi thanh toán thất bại
-            console.log('Thanh toán thất bại:', { orderId, message });
-        }
-        res.status(200).json({ message: 'IPN received' });
+  const checkSignature = crypto
+    .createHmac("sha256", secretKey)
+    .update(rawSignature)
+    .digest("hex");
+
+  if (signature === checkSignature) {
+    if (resultCode === 0) {
+      // Xử lý khi thanh toán thành công
+      console.log("Thanh toán thành công:", { orderId, transId, amount });
     } else {
-        res.status(400).json({ message: 'Signature mismatch' });
+      // Xử lý khi thanh toán thất bại
+      console.log("Thanh toán thất bại:", { orderId, message });
     }
+    res.status(200).json({ message: "IPN received" });
+  } else {
+    res.status(400).json({ message: "Signature mismatch" });
+  }
 });
