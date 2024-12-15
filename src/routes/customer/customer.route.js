@@ -24,7 +24,6 @@ router.get(
 
 router.get('/', customerController.index);
 router.get('/avatar', customerController.avatar);
-router.get('/login', (req, res) => res.render('customer/login', {layout: 'login'}));
 router.get('/address', addressController.customerAddressList);
 
 module.exports = router;
